@@ -2,10 +2,7 @@ package com.example.springboot.dbproject.rest;
 
 import com.example.springboot.dbproject.entity.Employee;
 import com.example.springboot.dbproject.service.EmployeeService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +22,7 @@ public class EmployeeRestController {
         return employeeService.findAll();
     }
 
+    // Return a specific employee by id and error if not found
     @GetMapping("/employees/{employeeId}")
     public Employee getEmployee(@PathVariable int employeeId) {
         Employee theEmployee = employeeService.findById(employeeId);
@@ -34,5 +32,18 @@ public class EmployeeRestController {
         }
 
         return theEmployee;
+    }
+
+    // Add mapping for /POST employees, adding a new employee
+    @PostMapping("/employees")
+    public Employee addEmployee(@RequestBody Employee theEmployee) {
+
+        // Just in case id is passed, make it 0
+        // This is to force adding a new item instead of an update
+        theEmployee.setId(0);
+
+        Employee dbEmployee = employeeService.save(theEmployee);
+
+        return dbEmployee;
     }
 }
