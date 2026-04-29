@@ -19,10 +19,7 @@
     Country:
 
     <select th:field="*{country}">
-        <option th:value="Brazil">Brazil</option>
-        <option th:value="Türkiye">Türkiye</option>
-        <option th:value="Poland">Poland</option>
-        <option th:value="Canada">Canada</option>
+        <option th:each="tempCountry : ${countries}" th:value="${tempCountry}" th:text="${tempCountry}" />
     </select>
 
     <input type="submit" value="Submit"/>
